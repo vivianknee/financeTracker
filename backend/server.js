@@ -27,7 +27,7 @@ app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/income", incomeRoutes);
 
 //serve uploads folder
-app.use("uploads", express.static(path.join(__dirname, "uploads")));
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Global error handling middleware
 app.use((err, req, res, next) => {
