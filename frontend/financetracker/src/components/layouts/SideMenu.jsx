@@ -22,7 +22,7 @@ const SideMenu = ({ activeMenu }) => {
         navigate("/login");
     };
 
-    return <div className="w-64 h-[calc(100vh-61px)] bg-white border-r border-gray-200/50 p-5 sticky top-[61px] z-20">
+    return <div className="w-64 h-[calc(100vh-61px)] bg-white border-r border-gray-200/50 p-5 sticky top-[61px] z-50">
         <div className="flex flex-col items-center justify-center gap-3 mt-3 mb-7">
             {user?.profileImageUrl ? (
                 <img 
@@ -45,12 +45,18 @@ const SideMenu = ({ activeMenu }) => {
         {SIDE_MENU_DATA.map((item, index) => (
             <button 
                 key={`menu_${index}`}
-                className={`w-full flex items-center gap-4 text-[15px] ${
-                    activeMenu === item.label ? "text-white bg-primary" : ""
-                } py-3 px-6 rounded-lg mb-3`}
+                className={`w-full flex items-center gap-4 text-[15px] transition-all duration-200 ease-in-out ${
+                    activeMenu === item.label 
+                        ? "text-white bg-primary shadow-md" 
+                        : "text-gray-600 hover:text-primary hover:bg-purple-50 hover:shadow-sm"
+                } py-3 px-6 rounded-lg mb-3 cursor-pointer`}
                 onClick={() => handleClick(item.path)}
             >
-                <item.icon className="text-xl" />
+                <item.icon className={`text-xl transition-colors duration-200 ${
+                    activeMenu === item.label 
+                        ? "text-white" 
+                        : "text-gray-500 group-hover:text-primary"
+                }`} />
                 {item.label}
             </button>
         ))}
