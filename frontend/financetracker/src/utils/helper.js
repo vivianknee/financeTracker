@@ -60,3 +60,24 @@ export const prepareIncomeBarChartData = (data = []) => {
     return [];
   }
 };
+
+export const prepareExpenseLineChartData = (data = []) => {
+  if (!data || data.length === 0) {
+    return [];
+  }
+
+  try {
+    const sortedData = [...data].sort((a, b) => new Date(a.date) - new Date(b.date));
+
+    const chartData = sortedData.map((item) => ({
+      month: moment(item.date).format("Do MMM"),
+      amount: item.amount,
+      category: item.category,
+    }));
+    
+    return chartData;
+  } catch (error) {
+    console.error('Error preparing expense line chart data:', error, data);
+    return [];
+  }
+};

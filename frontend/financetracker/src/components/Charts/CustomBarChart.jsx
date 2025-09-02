@@ -74,7 +74,6 @@ const CustomBarChart = ({data}) => {
                             <Cell key={index} fill={getBarColor(index)}/>
                         ))}
                     </Bar>
-                    <Legend />
                 </BarChart>
             </ResponsiveContainer>
         </div>
