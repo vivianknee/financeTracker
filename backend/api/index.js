@@ -22,8 +22,7 @@ app.use(express.json());
 
 // Connect to database
 console.log("Starting database connection...");
-// Temporarily comment out to test basic server
-// connectDB();
+connectDB();
 
 // Health check route
 app.get("/", (req, res) => {

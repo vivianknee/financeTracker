@@ -17,7 +17,8 @@ const connectDB = async () => {
     } catch (err) {
         console.error("Error connecting to MongoDB:", err);
         console.error("Connection string:", process.env.MONGO_URI);
-        process.exit(1);
+        // Don't exit the process, let the server continue running
+        // process.exit(1);
     }
 };
 
