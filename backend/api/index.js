@@ -33,6 +33,33 @@ app.get("/", (req, res) => {
     });
 });
 
+// Database connection test route
+app.get("/test-db", async (req, res) => {
+    try {
+        const mongoose = require("mongoose");
+        const connectionState = mongoose.connection.readyState;
+        const states = {
+            0: "disconnected",
+            1: "connected", 
+            2: "connecting",
+            3: "disconnecting"
+        };
+        
+        res.json({
+            message: "Database connection test",
+            connectionState: states[connectionState],
+            mongoUri: process.env.MONGO_URI ? "Set" : "Not set",
+            timestamp: new Date().toISOString()
+        });
+    } catch (error) {
+        res.json({
+            message: "Database connection test failed",
+            error: error.message,
+            mongoUri: process.env.MONGO_URI ? "Set" : "Not set"
+        });
+    }
+});
+
 // Routes
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/income", incomeRoutes);
