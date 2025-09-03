@@ -24,6 +24,15 @@ app.use(express.json());
 // Connect to database
 connectDB();
 
+// Health check route
+app.get("/", (req, res) => {
+    res.json({ 
+        message: "Finance Tracker API is running!", 
+        status: "success",
+        timestamp: new Date().toISOString()
+    });
+});
+
 // Routes
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/income", incomeRoutes);
