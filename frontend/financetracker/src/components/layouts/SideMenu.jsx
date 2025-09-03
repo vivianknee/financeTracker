@@ -10,7 +10,7 @@ const SideMenu = ({ activeMenu }) => {
     const [imageError, setImageError] = useState(false);
 
     const handleClick = (route) => {
-        if (route === "logout") {
+        if (route === "/logout") {
             handleLogout();
             return;
         }
