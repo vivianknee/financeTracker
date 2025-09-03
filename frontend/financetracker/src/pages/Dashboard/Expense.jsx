@@ -8,6 +8,10 @@ import ExpenseOverview from '../../components/Expense/ExpenseOverview';
 import AddExpenseForm from '../../components/Expense/AddExpenseForm';
 import Modal from '../../components/Modal';
 import DeleteAlert from '../../components/DeleteAlert';
+import ExpenseList from '../../components/Expense/ExpenseList';
+import InfoCard from '../../components/Cards/InfoCard';
+import { LuHandCoins } from 'react-icons/lu';
+import { addThousandsSeparator } from '../../utils/helper';
 
 const Expense = () => {
   useUserAuth();
@@ -81,6 +85,47 @@ const Expense = () => {
     }
   };
 
+  //delete expense
+  const deleteExpense = async (id) => {
+    try {
+      await axiosInstance.delete(API_PATHS.EXPENSE.DELETE_EXPENSE(id));
+
+      setOpenDeleteAlert({show: false, data: null});
+      toast.success("Expense deleted successfully");
+      fetchExpenseDetails();
+    } catch (error) {
+      console.error(
+        "error deleting expense", 
+        error.response?.data?.message || error.message
+      );
+    }
+  };
+
+  //handle download expense details
+  const handleDownloadExpenseDetails = async () => {
+    try {
+      const response = await axiosInstance.get(
+        `${API_PATHS.EXPENSE.DOWNLOAD_EXPENSE}`,
+        {
+          responseType: "blob",
+        }
+      );
+      
+      //create a url for the blob
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "expense_details.xlsx");
+      document.body.appendChild(link);
+      link.click();
+      link.parentNode.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("error downloading expense details", error);
+      toast.error("Failed to download expense details. Please try again");
+    }
+  };
+
   useEffect(() => {
     fetchExpenseDetails();
 
@@ -97,6 +142,17 @@ const Expense = () => {
               onAddExpense={() => setOpenAddExpenseModal(true)}
             />
           </div>
+
+          <ExpenseList 
+            transactions={expenseData}
+            onDelete={(id) => {
+              setOpenDeleteAlert({
+                show: true,
+                data: id,
+              });
+            }}
+            onDownload={handleDownloadExpenseDetails}
+          />
         </div>
 
         <Modal 
@@ -114,7 +170,7 @@ const Expense = () => {
         >
           <DeleteAlert
             content="Are you sure you want to delete this expense detail"
-            onDelete={() => deleteIncome(openDeleteAlert.data)}
+            onDelete={() => deleteExpense(openDeleteAlert.data)}
           />
         </Modal>
 

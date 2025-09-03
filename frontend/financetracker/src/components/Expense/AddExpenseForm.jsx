@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Input from '../Inputs/Input';
-import EmojiPickerPopup from 'emoji-picker-react';
+import EmojiPickerPopup from '../EmojiPickerPopup';
 
 const AddExpenseForm = ({onAddExpense}) => {
     const [income, setIncome] = useState({
