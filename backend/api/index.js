@@ -21,6 +21,7 @@ app.use(
 app.use(express.json());
 
 // Connect to database
+console.log("Starting database connection...");
 connectDB();
 
 // Health check route
